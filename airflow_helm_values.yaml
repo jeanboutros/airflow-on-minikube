@@ -1,0 +1,42 @@
+# Default airflow repository -- overridden by all the specific images below
+defaultAirflowRepository: airflow-custom-image
+
+# Default airflow tag to deploy
+defaultAirflowTag: "0.0.1"
+
+# Airflow version (Used to make some decisions based on Airflow Version being deployed)
+airflowVersion: "2.9.0"
+
+webserverSecretKeySecretName: my-webserver-secret
+
+
+dags:
+  # Where dags volume will be mounted. Works for both persistence and gitSync.
+  # If not specified, dags mount path will be set to $AIRFLOW_HOME/dags
+  mountPath: ~
+  persistence:
+    # Enable persistent volume for storing dags
+    enabled: true
+    # Volume size for dags
+    size: 10Gi
+    # access mode of the persistent volume
+    accessMode: ReadWriteOnce
+    ## the name of an existing PVC to use
+    existingClaim: dag-pv-claim
+
+# Note for Rancher users
+# When installing the chart using Argo CD, Flux, Rancher or Terraform, 
+# MUST set the four following values, or the application will not 
+# start as the migrations will not be run.
+# https://airflow.apache.org/docs/helm-chart/stable/index.html#installing-the-chart-with-argo-cd-flux-rancher-or-terraform
+#
+# Note for the webserver key
+# We should set a static webserver secret key when deploying with this chart as it 
+# will help ensure your Airflow components only restart when necessary.
+# https://airflow.apache.org/docs/helm-chart/stable/production-guide.html#webserver-secret-key
+# createUserJob:
+#   useHelmHooks: false
+#   applyCustomEnv: false
+# migrateDatabaseJob:
+#   useHelmHooks: false
+#   applyCustomEnv: false

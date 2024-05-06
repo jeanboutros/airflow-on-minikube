@@ -1,0 +1,21 @@
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: dag-pv-claim
+  namespace: airflow
+  labels:
+    type: volume-claim
+    content: airflow-dags
+spec:
+  storageClassName: manual
+  accessModes:
+    # Maybe ReadOnlyMany is a better option but it's something to investigate further.
+    - ReadWriteOnce
+  volumeMode: Filesystem
+  resources:
+    requests:
+      storage: 10Gi
+  selector:
+    matchLabels:
+      type: local-volume
+      content: airflow-dags

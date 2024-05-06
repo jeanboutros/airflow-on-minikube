@@ -1,0 +1,23 @@
+global:
+  postgresql:
+    auth:
+      username: "admin"
+      password: "admin"
+      database: "test-db"
+
+auth:
+  postgresPassword: "admin"
+
+architecture: replication
+
+replication:
+  synchronousCommit: "on"
+  numSynchronousReplicas: 2
+  applicationName: "pg-replication-app"
+
+primary:
+  name: "main"
+
+readReplicas:
+  name: "replica"
+  replicaCount: 2

@@ -1,0 +1,23 @@
+
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: dag-pv-volume
+  namespace: airflow
+  labels:
+    type: local-volume
+    content: airflow-dags
+spec:
+  storageClassName: manual
+  capacity:
+    storage: 10Gi
+  accessModes:
+    - ReadWriteOnce
+  volumeMode: Filesystem
+  # https://kubernetes.io/docs/tasks/configure-pod-container/configure-persistent-volume-storage/#create-a-persistentvolume
+  # In a production cluster, you would not use hostPath. 
+  # Instead a cluster administrator would provision a network resource 
+  # like a Google Compute Engine persistent disk, an NFS share, or an Amazon Elastic Block Store volume.
+  hostPath:
+    path: "/airflow/dags"
+

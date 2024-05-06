@@ -294,7 +294,7 @@ cd ..
 
 The docker image list command should return a list of images including the newly created one.
 
-![Screenshot 2024-05-02 at 14.00.06.png](Airflow%20on%20Minikube%20af082d65d9f64bed95017bb1aebd0d53/Screenshot_2024-05-02_at_14.00.06.png)
+![Screenshot 2024-05-02 at 14.00.06.png](docs/pics/Screenshot_2024-05-02_at_14.00.06.png)
 
 References:
 

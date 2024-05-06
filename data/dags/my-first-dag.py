@@ -13,19 +13,7 @@ with DAG("my-first-dag",
          start_date=datetime(2024,1,1),
          catchup=False):
     
-   #  t1 = SQLExecuteQueryOperator(task_id='setup_postgresql_db', 
-   #                               autocommit=False,
-   #                                sql=(
-   #                                    '''
-   #                                    SELECT 'CREATE DATABASE hello_airflow_world'
-   #                                     WHERE NOT EXISTS (SELECT FROM pg_database WHERE datname = 'hello_airflow_world')\gexec
-   #                                  '''
-   #                                ),
-   #                                conn_id='postgres_connection',
-   #                                )
-    
-    
-    t2 = SQLExecuteQueryOperator(task_id='setup_postgresql_test_table', 
+    t1 = SQLExecuteQueryOperator(task_id='setup_postgresql_test_table', 
                                  autocommit=True,
                                 database='hello_airflow_world',
                                 conn_id='postgres_connection',
@@ -42,7 +30,7 @@ with DAG("my-first-dag",
                        
                        )
     
-    t3 = SQLExecuteQueryOperator(task_id='insert_trash_into_table', 
+    t2 = SQLExecuteQueryOperator(task_id='insert_trash_into_table', 
                                  autocommit=True,
                                 database='hello_airflow_world',
                                 conn_id='postgres_connection',
@@ -57,9 +45,8 @@ with DAG("my-first-dag",
 
     
 
-    t4 = PythonOperator(task_id='get_db_creation_result',
+    t3 = PythonOperator(task_id='get_db_creation_result',
                          python_callable=lambda task_instance: logger.info(task_instance.xcom_pull(task_ids='insert_trash_into_table')),
                          )
     
-    t2 >> t3 >> t4
-    
+    t1 >> t2 >> t3
